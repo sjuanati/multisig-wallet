@@ -28,7 +28,8 @@ const getWeb3 = () => {
 
 const getWallet = async (web3: any) => {
     //const networkId = await web3.eth.net.getId();  //TODO: check Typescript complaint
-    const networkId = '5777';
+    //const networkId = '5777'; //localhost
+    const networkId = '42';     // Ropsten
     const contractDeployment = MultisigWallet.networks[networkId];
     return new web3.eth.Contract(
         MultisigWallet.abi,
