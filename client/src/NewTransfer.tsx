@@ -1,4 +1,5 @@
 import React from 'react';
+import './Global.css';
 
 const NewTransfer = ({ createTransfer }: { createTransfer: any }) => {
     const [transfer, setTransfer] = React.useState<any>();
@@ -31,7 +32,11 @@ const NewTransfer = ({ createTransfer }: { createTransfer: any }) => {
                 />
                 <button>Submit</button>
             </form>
+
         </div>
+
+
+
     );
 };
 

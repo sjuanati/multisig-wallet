@@ -1,12 +1,16 @@
-import React from 'react';
+import './Header.css';
 
-const Header = ({ approvers, quorum }: {approvers: string[], quorum: number}) => (
-    <header>
-        <ul>
-            <li> Approvers: {approvers.join(', ')}</li>
-            <li> Quorum: {quorum}</li>
-        </ul>
-    </header>
+const Header = ({ approvers, quorum }: { approvers: string[], quorum: number }) => (
+
+    <div className={'item'}>
+        <div className={'description'}>
+            Approvers
+        </div>
+        <div>
+            {approvers.map((elem) => <div key={elem}> {elem} </div>)}
+        </div>
+    </div>
+
 );
 
 export default Header;

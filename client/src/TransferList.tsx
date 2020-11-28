@@ -1,4 +1,4 @@
-import React from 'react';
+import './Global.css';
 
 const TransferList = ({ transfers, approveTransfer }: { transfers: any, approveTransfer: any }) => (
     <div>
@@ -21,7 +21,9 @@ const TransferList = ({ transfers, approveTransfer }: { transfers: any, approveT
                         <td>{transfer.to}</td>
                         <td>
                             {transfer.approvals}
-                            <button onClick={() => approveTransfer(transfer.id)}>
+                            <button 
+                                onClick={() => approveTransfer(transfer.id)}
+                                disabled={(transfer.approvals > 0) ? true : false}>
                                 Approve
                             </button>
                         </td>

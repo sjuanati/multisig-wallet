@@ -3,6 +3,7 @@ import { getWallet, getWeb3 } from './utils';
 import Header from './Header';
 import NewTransfer from './NewTransfer';
 import TransferList from './TransferList';
+import './Global.css';
 
 function App() {
 	const [web3, setWeb3] = React.useState<any>();
@@ -34,13 +35,21 @@ function App() {
 	const createTransfer = (transfer: any) => {
 		wallet.methods
 			.createTransfer(transfer.amount, transfer.to)
-			.send({from: accounts[0]});
+			.send({ from: accounts[0] })
+			//.on('confirmation', async () => { // for public testnet
+			.on('receipt', async () => {
+				console.log('confirmed')
+				setTransfers(await wallet.methods.getTransfers().call())
+			});
 	};
 
 	const approveTransfer = (transferId: any) => {
 		wallet.methods
 			.approveTransfer(transferId)
-			.send({from: accounts[0]});
+			.send({ from: accounts[0] })
+			.on('receipt', async () => {
+				setTransfers(await wallet.methods.getTransfers().call())
+			});
 	};
 
 	if (
@@ -52,15 +61,11 @@ function App() {
 	) return <div> Loading... </div>;
 
 	return (
-		<div>
+		<div className={'container'}>
 			<div> Multisig Wallet</div>
-			{/* {(accounts)
-				? <div> wallet: {accounts[0]} </div>
-				: null
-			} */}
 			<Header approvers={approvers} quorum={quorum} />
 			<NewTransfer createTransfer={createTransfer} />
-			<TransferList transfers={transfers} approveTransfer={approveTransfer}/>
+			<TransferList transfers={transfers} approveTransfer={approveTransfer} />
 		</div>
 	);
 };
