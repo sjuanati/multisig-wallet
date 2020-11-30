@@ -31,14 +31,13 @@ contract('MultisigWallet', (accounts) => {
         assert(transfers[0].sent === false);
 
     });
-    /*
-        it('should NOT create transfers if sender is not approved', async () => {
-            await expectRevert(
-                await multisigWallet.createTransfer(100, accounts[5], { from: accounts[4] }),
-                'only approver allowed'
-            );
-        });
-    */
+
+    it('should NOT create transfers if sender is not approved', async () => {
+        await expectRevert(
+            multisigWallet.createTransfer(100, accounts[5], { from: accounts[4] }),
+            'only approver allowed'
+        );
+    });
 
     it('should increment approvals', async () => {
         await multisigWallet.createTransfer(100, accounts[5], { from: accounts[0] });
@@ -67,17 +66,17 @@ contract('MultisigWallet', (accounts) => {
     it('should NOT approve transfer if sender is not approved', async () => {
         await multisigWallet.createTransfer(100, accounts[5], { from: accounts[0] });
         await expectRevert(
-            await multisigWallet.approveTransfer(0, { from: accounts[4] }),
+            multisigWallet.approveTransfer(0, { from: accounts[4] }),
             'only approver allowed'
         );
     });
 
-    it.only('should NOT approve transfer if it is already sent', async () => {
+    it('should NOT approve transfer if it is already sent', async () => {
         await multisigWallet.createTransfer(100, accounts[5], { from: accounts[0] });
         await multisigWallet.approveTransfer(0, { from: accounts[0] });
         await multisigWallet.approveTransfer(0, { from: accounts[1] });
         await expectRevert(
-            await multisigWallet.approveTransfer(0, { from: accounts[2] }),
+            multisigWallet.approveTransfer(0, { from: accounts[2] }),
             'transfer has already been sent'
         );
     });
@@ -86,10 +85,8 @@ contract('MultisigWallet', (accounts) => {
         await multisigWallet.createTransfer(100, accounts[5], { from: accounts[0] });
         await multisigWallet.approveTransfer(0, { from: accounts[0] });
         await expectRevert(
-            await multisigWallet.approveTransfer(0, { from: accounts[0] }),
+            multisigWallet.approveTransfer(0, { from: accounts[0] }),
             'cannot approve transfer twice'
         );
     });
-
-
 });
